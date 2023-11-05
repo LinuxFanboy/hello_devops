@@ -29,13 +29,13 @@ jobs:
       - name: Run linters (placeholder for future steps)
         run: echo "This will be the Run linters step"
 
-      - name: Run unit tests
+      - name: Run unit tests (temporary unit tests always are passing)
         run: npm run test:unit
 
-      - name: Run integration tests
+      - name: Run integration tests (temporary integration tests always are passing)
         run: npm run test:integration
 
-      - name: Run end-to-end tests
+      - name: Run end-to-end tests (temporary end2end tests always are passing)
         run: npm run test:e2e
 
       - name: Perform static code analysis (placeholder for future steps)

@@ -26,8 +26,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # - name: Run linters
-        # run: npm run lint
       - name: Run linters (placeholder for future steps)
         run: echo "This will be the Run linters step"
 
@@ -40,10 +38,8 @@ jobs:
       - name: Run end-to-end tests
         run: npm run test:e2e
 
-      # - name: Perform static code analysis
-        # run: npm run analyze
       - name: Perform static code analysis (placeholder for future steps)
-        run: echo "This will be the Perform static code analysis"
+        run: echo "This will be the Perform static code analysis step"
 
   build:
     needs: test
@@ -73,12 +69,28 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
 
+      - name: Save Docker image as tarball
+        run: |
+          docker save ${{ secrets.DOCKER_HUB_USERNAME }}/hello_devops:latest > hello_devops.tar
+
+      - name: Upload Docker image as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: docker-image
+          path: hello_devops.tar
+
   push:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Download Docker image from artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: docker-image
+
+      - name: Load Docker image from tarball
+        run: |
+          docker load < hello_devops.tar
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
@@ -87,9 +99,9 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Push Docker image to DockerHub
-        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/hello_devops:latest
+        run: |
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/hello_devops:latest
 
-  # Placeholder job for deployment - to be configured later
   deploy:
     needs: push
     runs-on: ubuntu-latest

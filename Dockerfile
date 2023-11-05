@@ -1,5 +1,5 @@
 # Official NodeJS image
-FROM node:18
+FROM node:20
 
 # Set working dir
 WORKDIR /usr/src/app

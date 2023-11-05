@@ -20,7 +20,7 @@ jobs:
         id: tag_version
         uses: anothrNick/github-tag-action@1.35.0
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.TOKEN_GITHUB }}
           default_bump: patch
           with_v: true
 

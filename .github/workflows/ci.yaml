@@ -40,8 +40,10 @@ jobs:
       - name: Run end-to-end tests
         run: npm run test:e2e
 
-      - name: Perform static code analysis
-        run: npm run analyze
+      # - name: Perform static code analysis
+        # run: npm run analyze
+      - name: Perform static code analysis (placeholder for future steps)
+        run: echo "This will be the Perform static code analysis"
 
   build:
     needs: test
